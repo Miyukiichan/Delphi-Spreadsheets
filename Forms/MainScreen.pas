@@ -99,7 +99,6 @@ begin
       Canvas.FillRect(Rect);
       Canvas.TextOut(Rect.Left + offset, Rect.Top + 5, Cells[ACol, ARow]);
     end;
-
 end;
 
 { Sync cell edit and block changes to it affecting selected cells }
