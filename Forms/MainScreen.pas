@@ -84,8 +84,7 @@ begin
 end;
 
 { Make the title row/column grey and center the label text }
-procedure TSpreadsheet.StringGridDrawCell(Sender: TObject; ACol, ARow: Integer;
-  Rect: TRect; State: TGridDrawState);
+procedure TSpreadsheet.StringGridDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 var
   offset: Integer;
 begin
@@ -93,6 +92,7 @@ begin
     with TStringGrid(Sender) do begin
       offset := 27;
       if ARow = 0 then offset := 30;
+      //Centre text by decreasing 3 for each extra character after the first
       Dec(offset, ((Length(Cells[ACol, ARow]) - 1) * 3));
       Canvas.Brush.Color := clGray;
       Rect.Left := Rect.Left - 4;
@@ -103,16 +103,14 @@ begin
 end;
 
 { Sync cell edit and block changes to it affecting selected cells }
-procedure TSpreadsheet.StringGridMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TSpreadsheet.StringGridMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   blockChange := true;
   SetCellEdit;
   SetCoordLabel(X, Y);
 end;
 
-procedure TSpreadsheet.StringGridMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TSpreadsheet.StringGridMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   pnt: TPoint;
 begin
@@ -200,7 +198,6 @@ end;
 function TSpreadsheet.AlphaIndex(index: Integer): string;
 var
   i: Integer;
-  j: Integer;
   Arr: array [0 .. 20] of Char;
   Temp: Integer;
 begin
@@ -212,7 +209,7 @@ begin
     Index := Pred(Index) div 26;
     Inc(i);
   end;
-  for j := Pred(i) downto 0 do Result := Concat(Result, Arr[j]);
+  for i := Pred(i) downto 0 do Result := Concat(Result, Arr[i]);
 end;
 
 { Find the maximum cell coord values and save to csv accordingly }
